@@ -1,0 +1,48 @@
+---
+import { Icon } from 'astro-icon/components'
+
+const { src = '/astronaut-hero-img.webp' } = Astro.props
+---
+
+<section class="hero my-24">
+  <div class="container">
+    <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
+      <div class="flex flex-col items-center gap-8 md:items-start">
+        <h1 class="text-center text-6xl md:text-left lg:text-7xl">
+          <slot><span class="text-gradient">Outsourced</span> Reaserch & Development</slot>
+        </h1>
+        <div class="flex flex-col gap-3 min-[500px]:flex-row">
+          <a class="button has-icon" href="#contact">
+            <Icon name="ion:email" />
+            Contact us!
+          </a>
+          <!-- <a
+            class="button has-icon color-secondary"
+            href="#projects"          
+          >
+            <Icon name="ion:bookmark-outline"/>
+            Our projects!
+          </a> -->
+        </div>
+      </div>
+      <img class="hidden lg:block" src={src} alt="" decoding="async" />
+      <!-- <model-viewer max-camera-orbit="auto 90deg auto" class="hidden lg:block" alt="Neil Armstrong's Spacesuit from the Smithsonian Digitization Programs Office and National Air and Space Museum" src="/rpi.gltf" ar poster="shared-assets/models/NeilArmstrong.webp" shadow-intensity="1" camera-controls touch-action="pan-y"></model-viewer> -->
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .text-gradient {
+    background: linear-gradient(315deg, var(--primary-200) 25%, var(--secondary-500));
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  :global(.darkmode .text-gradient) {
+    background: linear-gradient(315deg, var(--primary-200) 25%, var(--secondary-400));
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+</style>

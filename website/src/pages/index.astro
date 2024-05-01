@@ -1,0 +1,65 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import Hero from '../components/Hero.astro'
+import Feature from '../components/Feature.astro'
+import Counter from '../components/Counter.astro'
+import ContentMedia from '../components/ContentMedia.astro'
+import CallToAction from '../components/CallToAction.astro'
+---
+
+<DefaultLayout title="Home">
+  <Hero />
+  <section>
+    <div class="container">
+      <h2 class="mb-16 text-6xl">Services</h2>
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+        <Feature icon="mdi:code-braces" title="Software">
+          We can help you with all your software needs, from a simple website to production monitoring utilizing artificial inteligence (AI)
+        </Feature>
+        <Feature icon="mdi:printer-3d" title="Design & prototyping">
+          Have an a idea for a ground breaking device? We can make it into a working prototype.
+        </Feature>
+        <Feature icon="mdi:account-hard-hat" title="Small scale manufacturing">
+           Need a small run of custom electronics or tools? Our team can make that happen.
+        </Feature>
+        <!-- <Feature icon="mdi:account-hard-hat" title="Hardware Prototyping">
+          Less worry about formatting your code, let the Astro Prettier integration do the heavy lifting.
+        </Feature> -->
+      </div>
+    </div>
+  </section>
+  <!-- <section class="my-64" id="projects">
+    <div class="container">
+      <h2 class="mb-16 text-6xl">Projects</h2>
+      <ContentMedia imgSrc="/accessible-components.webp">
+        <h2>Accessible Components</h2>
+        <p class="text-2xl">
+          This theme provides plenty of tried and tested Accessible Astro Components. Some are native to this theme and
+          a lot of others are integrated using a <a href="https://github.com/markteekman/accessible-astro-components"
+            >separate package</a
+          >. They'll get you up and running in building an accessible solution for your visitors.
+        </p>
+      </ContentMedia>
+      <ContentMedia imgSrc="/wcag-compliant.webp" reverseImg={true}>
+        <h2>WCAG 2.1 AA Compliant</h2>
+        <p class="text-2xl">
+          Using semantic HTML, landmarks, skip links, screen reader friendly content, aria-labels, keyboard accessible
+          navigation and components, clear outlines and tab indicators and the right color contrast, you're more certain
+          of reaching WCAG AA compliance.
+        </p>
+      </ContentMedia>
+    </div>
+  </section>
+  <section class="mb-32 mt-64">
+    <div class="container">
+      <h2 class="mb-16 text-6xl">Counters</h2>
+      <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4">
+        <Counter count="520" title="Stars" sub="On GitHub" />
+        <Counter count="17" title="Accessible" sub="Components" />
+        <Counter count="500" title="Commits" sub="Merged" />
+        <Counter count="18+" title="Months" sub="Since launch" />
+      </div>
+    </div>
+  </section> -->
+  <CallToAction />
+</DefaultLayout>

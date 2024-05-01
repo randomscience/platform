@@ -1,0 +1,31 @@
+---
+import { ViewTransitions } from 'astro:transitions'
+
+const { title, description, url, image, author } = Astro.props
+
+let subtitle = 'Random Science'
+---
+
+<!-- general meta -->
+<meta name="title" content={`${title} - ${subtitle}`} />
+<meta name="description" content={description} />
+<meta name="author" content={author} />
+
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- open graph -->
+<meta property="og:title" content={`${title} - ${subtitle}`} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={url} />
+<meta property="og:image" content={`${Astro.site}${image}`} />
+
+<!-- twitter card -->
+<!-- <meta name="twitter:card" content="summary"/>
+<meta name="twitter:site" content="{{ site.seo.meta_twitter_site }}"/>
+<meta name="twitter:creator" content="{{ site.seo.meta_twitter_creator }}"/> -->
+
+<!-- page title -->
+<title>{title} - {subtitle}</title>
+
+<ViewTransitions />

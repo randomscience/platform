@@ -1,0 +1,28 @@
+---
+import CallToAction from './CallToAction.astro'
+
+const currentYear = new Date().getFullYear()
+---
+
+<footer>
+  <!-- <CallToAction /> -->
+  <section class="py-8">
+    <div class="container">
+      <p>
+        &copy; {currentYear} - Random Science sp. z o.o.
+      </p>
+      <p>ul. Gościnna 1 86-014 Sicienko</p>
+      <p>Sąd Rejonowy w Bydgoszczy, XIII Wydział Gospodarczy Krajowego Rejestru Sądowego.</p>
+      <p>KRS: 0001098573, NIP: 5543023781, Kapitał zakładowy 5 tys. zł</p>
+      <p>
+        <a href="/licenses">Software licences</a>
+      </p>
+    </div>
+  </section>
+</footer>
+
+<style>
+  footer {
+    background-color: var(--secondary-400);
+  }
+</style>
