@@ -10,7 +10,7 @@ COPY website/tailwind.config.js tailwind.config.js
 RUN npm install
 RUN npm run build
 
-FROM golang:latest
+FROM golang:1.21
 WORKDIR /build
 # RUN mkdir pb_public
 COPY --from=frontend /app/dist /build/pb_public
