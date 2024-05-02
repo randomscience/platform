@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:20
 WORKDIR app
 COPY public/ public/
 COPY src/ src/
