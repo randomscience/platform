@@ -1,4 +1,4 @@
-FROM node:latest as frontend
+FROM node:20 as frontend
 WORKDIR /app
 COPY website/public/ public/
 COPY website/src/ src/
