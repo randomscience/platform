@@ -1,0 +1,25 @@
+---
+import DefaultLayout from "../layouts/DefaultLayout.astro";
+---
+
+<DefaultLayout title="Book a Consulation">
+    <!-- Google Calendar Appointment Scheduling begin -->
+    <style>
+        .constrained {
+            /* max-width: 900px; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 100vh; */
+                /* height: 100vh; */
+        }
+    </style>
+    <div class="constrained">
+        <iframe
+            src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ053OEtQtQtIcYpljWRMH9CyB8Ie6666URRT77IfMxL5wSeK19ZP1V18LU5y6mp0I6Jv_pDk7GC?gv=true"
+            style="border: 0"
+            width="1000"
+            height="1200"></iframe>
+    </div>
+    <!-- end Google Calendar Appointment Scheduling -->
+</DefaultLayout>
