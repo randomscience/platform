@@ -5,8 +5,8 @@ const { title, description, url, image, author } = Astro.props
 
 let subtitle = 'Random Science'
 ---
-
 <!-- general meta -->
+<title>{`${title} - ${subtitle}`}</title>
 <meta name="title" content={`${title} - ${subtitle}`} />
 <meta name="description" content={description} />
 <meta name="author" content={author} />
