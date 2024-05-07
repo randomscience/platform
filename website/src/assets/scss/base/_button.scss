@@ -27,7 +27,8 @@
 
   &.color-secondary {
     background-color: var(--secondary-100);
-    border-color: (var(--secondary-100));
+    border: 3px solid var(--neutral-700);
+    border-color: (var(--neutral-700));
 
     &:hover,
     &:focus {
