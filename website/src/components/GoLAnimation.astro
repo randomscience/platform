@@ -1,0 +1,256 @@
+<div>
+    <!-- <img src="mask.png" alt="mask" /> -->
+    <canvas id="canvas"> </canvas>
+</div>
+<style>
+    /* style="box-shadow: 0 0 0 2pt grey; border-radius: 8pt;"
+     */
+    @use "../assets/scss/base/breakpoint" as *;
+    #canvas {
+        padding: 0;
+        margin: auto;
+        display: block;
+    }
+    #canvas {
+        position: relative;
+        width: calc(100% - 0.5rem);
+        padding: 2rem;
+
+        > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        @include breakpoint(large) {
+            width: 100%;
+        }
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+        }
+
+        &::before {
+            inset: 0;
+            background-color: var(--neutral-100);
+            border: 3px solid var(--neutral-700);
+            border-radius: 1rem;
+            box-shadow: 0 0 0 6px var(--neutral-100);
+            z-index: 1;
+        }
+
+        &::after {
+            background-color: var(--action-color);
+            inset: 1rem -0.85rem -0.85rem 1rem;
+            border-radius: 1rem;
+            z-index: 0;
+        }
+    }
+
+    :global#canvas [data-icon]) {
+        height: auto;
+        width: 4rem;
+        color: var(--action-color);
+    }
+    #canvas:hover {
+        &::before {
+            inset: -0.7rem;
+            background-color: var(--neutral-100);
+            border: 3px solid var(--neutral-700);
+            border-radius: 1rem;
+            box-shadow: 0 0 0 6px var(--neutral-100);
+            z-index: 1;
+        }
+
+        &::after {
+            background-color: var(--action-color);
+            inset: 1rem -0.85rem -0.85rem 1rem;
+            border-radius: 1rem;
+            z-index: 0;
+        }
+    }
+
+    :global(.darkmode #canvas::before) {
+        background-color: var(--dark-100);
+        box-shadow: 0 0 0 6px var(--dark-100);
+    }
+</style>
+<script>
+    window.addEventListener("load", draw);
+    const canvas = document.getElementById("canvas");
+// best settings:
+// var numberOfRows = 20;
+// var canvasSize = 1200;
+// var cellRadius = 8;
+// var cellBorder = 8;
+
+    var numberOfRows = 30;
+    var canvasSize = 1200;
+    var cellRadius = 8;
+    var cellBorder = 8;
+    var numberOfColumns = numberOfRows;
+    var cellSize = canvasSize / numberOfRows;
+
+    var canvasStyleWidth = `${canvasSize / 2}px`;
+    var canvasStyleHeight = `${canvasSize / 2}px`;
+    var frameCounter = 0;
+    class Cell {
+        constructor(x: number, y: number, isAlive = true) {
+            this.isAlive = isAlive;
+            this.x = x;
+            this.y = y;
+        }
+        kill() {
+            this.isAlive = false;
+        }
+        activate() {
+            this.isAlive = true;
+        }
+        setState(isAlive) {
+            this.isAlive = isAlive;
+        }
+        /// @param Canvas2dContext
+        show(ctx) {
+            var x_start = this.x * cellSize;
+            var x_end = x_start + cellSize;
+
+            var y_start = this.y * cellSize;
+            var y_end = y_start + cellSize;
+
+            if (this.isAlive) {
+                ctx.roundRect(
+                    x_start + cellBorder,
+                    y_start + cellBorder,
+                    cellSize - cellBorder,
+                    cellSize - cellBorder,
+                    cellRadius
+                );
+            }
+        }
+    }
+    var [grid, booleanGrid] = initGrid();
+    function initAlive(x, y) {
+        return Math.random() > 0.85;
+    }
+    function initGrid() {
+        var grid = [];
+        var tempBoolGrid = [];
+        for (var x = 0; x < numberOfColumns; x++) {
+            grid.push([]);
+            tempBoolGrid.push([]);
+            for (var y = 0; y < numberOfRows; y++) {
+                grid[grid.length - 1].push(new Cell(x, y, initAlive(x, y)));
+                tempBoolGrid[tempBoolGrid.length - 1].push(true);
+            }
+        }
+        return [grid, tempBoolGrid];
+    }
+
+    function getCell(x, y) {
+        if (x < 0) x = numberOfColumns - 1;
+
+        if (y < 0) y = numberOfRows - 1;
+
+        if (x >= numberOfColumns) x = 0;
+
+        if (y >= numberOfRows) y = 0;
+
+        return grid[x][y].isAlive;
+    }
+
+    function logic(x, y) {
+        var numberOfAliveCells = 0;
+
+        if (getCell(x - 1, y - 1)) ++numberOfAliveCells;
+        if (getCell(x - 1, y)) ++numberOfAliveCells;
+        if (getCell(x - 1, y + 1)) ++numberOfAliveCells;
+
+        if (getCell(x, y - 1)) ++numberOfAliveCells;
+        if (getCell(x, y + 1)) ++numberOfAliveCells;
+
+        if (getCell(x + 1, y - 1)) ++numberOfAliveCells;
+        if (getCell(x + 1, y)) ++numberOfAliveCells;
+        if (getCell(x + 1, y + 1)) ++numberOfAliveCells;
+
+        if (grid[x][y].isAlive) {
+            // Any live cell with fewer than two live neighbors dies, as if by underpopulation.
+            if (numberOfAliveCells < 2) return false;
+            // Any live cell with more than three live neighbors dies, as if by overpopulation.
+            if (numberOfAliveCells > 3) return false;
+            // Any live cell with two or three live neighbors lives on to the next generation.
+            return true;
+        } else {
+            // Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+            return numberOfAliveCells == 3;
+        }
+    }
+    function step() {
+        for (var x = 0; x < numberOfColumns; x++) {
+            for (var y = 0; y < numberOfRows; y++) {
+                booleanGrid[x][y] = logic(x, y);
+            }
+        }
+        // console.log(booleanGrid[0])
+        for (var x = 0; x < numberOfColumns; x++) {
+            for (var y = 0; y < numberOfRows; y++) {
+                grid[x][y].setState(booleanGrid[x][y]);
+            }
+        }
+    }
+    var fps, fpsInterval, startTime, now, then, elapsed;
+
+    // initialize the timer variables and start the animation
+    const img = new Image();
+    img.src = "/mask.png";
+
+    function startAnimating(fps) {
+        fpsInterval = 1000 / fps;
+        then = Date.now();
+        startTime = then;
+        animate();
+    }
+    function animate() {
+        window.requestAnimationFrame(animate);
+        now = Date.now();
+        elapsed = now - then;
+        if (elapsed > fpsInterval) {
+            then = now - (elapsed % fpsInterval);
+            draw();
+        }
+    }
+    function draw() {
+        if (frameCounter > 50){
+            frameCounter = 0;
+            [grid, booleanGrid] = initGrid();
+        } 
+        frameCounter++;
+        if (canvas.getContext) {
+            // img.onload = () => {
+            // };
+            // canvas.getElementById("canvas"
+            canvas.width = canvasSize;
+            canvas.height = canvasSize;
+            canvas.style.width = canvasStyleWidth;
+            canvas.style.height = canvasStyleHeight;
+            const dpi = window.devicePixelRatio;
+            const ctx = canvas.getContext("2d");
+            ctx.scale(dpi, dpi);
+         
+            ctx.strokeStyle = "rgb(37 99 235)";
+            ctx.fillStyle = "rgb(37 99 235)";
+            ctx.beginPath();
+            for (var x = 0; x < numberOfColumns; ++x) {
+                for (var y = 0; y < numberOfRows; ++y) {
+                    grid[x][y].show(ctx);
+                }
+            }
+            ctx.stroke();
+            ctx.fill();
+            step();
+        } else {
+            console.log("CTX not supported");
+        }
+    }
+    startAnimating(8);
+</script>

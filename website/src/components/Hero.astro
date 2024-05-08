@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components'
-
+import GoLAnimation from './GoLAnimation.astro'
 const { src = '/astronaut-hero-img.webp' } = Astro.props
 ---
 
@@ -25,7 +25,16 @@ const { src = '/astronaut-hero-img.webp' } = Astro.props
           </a>
         </div>
       </div>
-      <img class="hidden lg:block" src={src} alt="" decoding="async" />
+      <div class="hidden lg:block" >
+        <GoLAnimation />
+      </div>
+      <!-- <div class="wrapper">
+        <div class="navi"> -->
+        <!-- </div>
+        <div id="infoi"><img src="/mask.png" /></div>
+      </div> -->
+      
+      <!-- <img class="hidden lg:block" src={src} alt="" decoding="async" /> -->
       <!-- <model-viewer max-camera-orbit="auto 90deg auto" class="hidden lg:block" alt="Neil Armstrong's Spacesuit from the Smithsonian Digitization Programs Office and National Air and Space Museum" src="/rpi.gltf" ar poster="shared-assets/models/NeilArmstrong.webp" shadow-intensity="1" camera-controls touch-action="pan-y"></model-viewer> -->
     </div>
   </div>
@@ -45,4 +54,8 @@ const { src = '/astronaut-hero-img.webp' } = Astro.props
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  .wrapper {
+  position: relative;
+}
 </style>
