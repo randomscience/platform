@@ -71,7 +71,7 @@ Personal Data is collected for the following purposes and using the following se
 #### Contact form (this Application)
 By filling in the contact form with their Data, the User authorizes this Application to use these details to reply to requests for
 information, quotes or any other kind of request as indicated by the form’s header.
-Personal Data processed: email address; first name; last name.
+Personal Data processed: email address; phone number; first name; last name.
 
 ## Further Information for Users
 ### Legal basis of processing
