@@ -10,7 +10,7 @@ function filterPages(page) {
     'https://www.randomscience.org/licenses/',
     'https://www.randomscience.org/privacy/',
   ]
-  return excluded.includes(page)
+  return !excluded.includes(page)
 }
 
 // https://astro.build/config
