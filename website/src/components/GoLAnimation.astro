@@ -15,12 +15,6 @@
 <script>
     window.addEventListener("load", draw);
     const canvas = document.getElementById("canvas");
-    // best settings:
-    // var numberOfRows = 20;
-    // var canvasSize = 1200;
-    // var cellRadius = 8;
-    // var cellBorder = 8;
-
     var numberOfRows = 30;
     var canvasSize = 1200;
     var cellRadius = 8;
@@ -163,6 +157,7 @@
         }
     }
     function draw() {
+        
         if (
         frameCounter > 50 &&
             (100 * numberOfCellsChanged) / (numberOfColumns * numberOfRows) <
