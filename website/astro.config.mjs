@@ -9,6 +9,7 @@ function filterPages(page) {
   const excluded = [
     'https://www.randomscience.org/licenses/',
     'https://www.randomscience.org/privacy/',
+    'https://www.randomscience.org/m4bdemo',
   ]
   return !excluded.includes(page)
 }
