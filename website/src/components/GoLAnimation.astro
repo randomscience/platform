@@ -5,22 +5,21 @@
 <style>
     /* style="box-shadow: 0 0 0 2pt grey; border-radius: 8pt;"
      */
-    
+
     #canvas {
         padding: 0;
         margin: auto;
         display: block;
     }
-
 </style>
 <script>
     window.addEventListener("load", draw);
     const canvas = document.getElementById("canvas");
-// best settings:
-// var numberOfRows = 20;
-// var canvasSize = 1200;
-// var cellRadius = 8;
-// var cellBorder = 8;
+    // best settings:
+    // var numberOfRows = 20;
+    // var canvasSize = 1200;
+    // var cellRadius = 8;
+    // var cellBorder = 8;
 
     var numberOfRows = 30;
     var canvasSize = 1200;
@@ -32,6 +31,11 @@
     var canvasStyleWidth = `${canvasSize / 2}px`;
     var canvasStyleHeight = `${canvasSize / 2}px`;
     var frameCounter = 0;
+    var numberOfCellsChanged = 0;
+    
+    // in order to make animation always look alive we restart it if to small amount of cells changes each iteration  
+    const percentageOfCellsChangedForRestart = 2;
+
     class Cell {
         constructor(x: number, y: number, isAlive = true) {
             this.isAlive = isAlive;
@@ -73,12 +77,14 @@
     function initGrid() {
         var grid = [];
         var tempBoolGrid = [];
+        numberOfCellsChanged = 0;
         for (var x = 0; x < numberOfColumns; x++) {
             grid.push([]);
             tempBoolGrid.push([]);
             for (var y = 0; y < numberOfRows; y++) {
-                grid[grid.length - 1].push(new Cell(x, y, initAlive(x, y)));
-                tempBoolGrid[tempBoolGrid.length - 1].push(true);
+                var isAlive = initAlive(x, y);
+                grid[grid.length - 1].push(new Cell(x, y, isAlive));
+                tempBoolGrid[tempBoolGrid.length - 1].push(isAlive);
             }
         }
         return [grid, tempBoolGrid];
@@ -123,9 +129,13 @@
         }
     }
     function step() {
+        numberOfCellsChanged = 0;
         for (var x = 0; x < numberOfColumns; x++) {
             for (var y = 0; y < numberOfRows; y++) {
-                booleanGrid[x][y] = logic(x, y);
+                if (booleanGrid[x][y] != logic(x, y)) {
+                    booleanGrid[x][y] = logic(x, y);
+                    numberOfCellsChanged++;
+                }
             }
         }
         // console.log(booleanGrid[0])
@@ -136,10 +146,6 @@
         }
     }
     var fps, fpsInterval, startTime, now, then, elapsed;
-
-    // initialize the timer variables and start the animation
-    const img = new Image();
-    img.src = "/mask.png";
 
     function startAnimating(fps) {
         fpsInterval = 1000 / fps;
@@ -157,15 +163,16 @@
         }
     }
     function draw() {
-        if (frameCounter > 50){
+        if (
+        frameCounter > 50 &&
+            (100 * numberOfCellsChanged) / (numberOfColumns * numberOfRows) <
+                percentageOfCellsChangedForRestart
+        ) {
             frameCounter = 0;
             [grid, booleanGrid] = initGrid();
-        } 
+        }
         frameCounter++;
         if (canvas.getContext) {
-            // img.onload = () => {
-            // };
-            // canvas.getElementById("canvas"
             canvas.width = canvasSize;
             canvas.height = canvasSize;
             canvas.style.width = canvasStyleWidth;
@@ -173,7 +180,7 @@
             const dpi = window.devicePixelRatio;
             const ctx = canvas.getContext("2d");
             ctx.scale(dpi, dpi);
-         
+
             ctx.strokeStyle = "rgb(37 99 235)";
             ctx.fillStyle = "rgb(37 99 235)";
             ctx.beginPath();
