@@ -1,0 +1,54 @@
+---
+import DefaultLayout from "../../layouts/DefaultLayout.astro";
+import { Card } from "accessible-astro-components";
+---
+
+<DefaultLayout title="Our Projects">
+    <section>
+        <div class="container">
+            <h1 id="services" class="mb-16 text-6xl">Our projects</h1>
+        </div>
+        <div class="container">
+            Here we present a selection of our current and past projects we are proud about 
+        </div>
+        <div class="container">
+            <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3 p-8">
+                <!-- <div class="container"> -->
+                <Card
+                    title="THEIA"
+                    footer=""
+                    url="/projects/theia"
+                />
+                <Card
+                    title="Brain Activity Measurement Software"
+                    footer=""
+                    url="/projects/theia"
+                />
+                <Card
+                    title="The Kidly Health"
+                    footer=""
+                    url="/projects/thekidly-health"
+                />
+                <Card
+                    title="3D Printing Measurement"
+                    footer=""
+                    url="/projects/thekidly-health"
+                />
+                <Card
+                    title="RAT"
+                    footer=""
+                    url="/projects/rat"
+                >
+                    Renewables Analysys Toolkit
+                </Card>
+                <Card
+                    title="RAT"
+                    footer=""
+                    url="/projects/rat"
+                >
+                    Renewables Analysys Toolkit
+                </Card>
+            </div>
+        </div>
+    </section>
+</DefaultLayout>
