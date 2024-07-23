@@ -10,6 +10,7 @@ function filterPages(page) {
     'https://www.randomscience.org/licenses/',
     'https://www.randomscience.org/privacy/',
     'https://www.randomscience.org/m4bdemo',
+    'http://localhost:4321/style_transfer/',
   ]
   return !excluded.includes(page)
 }

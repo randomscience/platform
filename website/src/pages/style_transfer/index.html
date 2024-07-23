@@ -1,0 +1,231 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/@magenta/image@^0.2.1"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      /* Ensure padding is included in the body height */
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      /* Ensure cards have the same height */
+      gap: 20px;
+      width: 100%;
+      max-width: 800px;
+      flex-wrap: wrap;
+      /* Allow wrapping of cards */
+    }
+
+    .card {
+      background-color: white;
+      border: 2px solid black;
+      box-shadow: 10px 10px 0px #000;
+      padding: 20px;
+      width: 300px;
+      border-radius: 15px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      /* Ensure content is spaced evenly */
+      margin-bottom: 20px;
+      /* Add margin at the bottom for spacing when stacked */
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card-content {
+      font-size: 16px;
+      flex-grow: 1;
+      /* Ensure content takes available space */
+    }
+
+    .card img {
+      width: 100%;
+      height: auto;
+      border-bottom: 2px solid black;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .button,
+    .file-picker {
+      background-color: yellow;
+      border: 2px solid black;
+      box-shadow: 5px 5px 0px #000;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px 20px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin: 10px 0;
+      border-radius: 15px;
+    }
+
+    .button:hover,
+    .file-picker:hover {
+      background-color: #f5f5f5;
+      color: black;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    label {
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 40px;
+      /* Space below the title */
+      text-align: center;
+      border: 3px solid #000;
+      /* Heavy border around the title */
+      padding: 20px;
+      background-color: #e0e0e0;
+      /* Light gray background */
+      text-transform: uppercase;
+      /* Uppercase text */
+      letter-spacing: 2px;
+      /* Spacing between letters */
+      box-shadow: 10px 10px 0px #000;
+      /* Shadow for a blocky effect */
+      border-radius: 10px;
+      /* Rounded corners for the title */
+    }
+
+    .subtitle {
+      font-size: smaller;
+    }
+
+    /* Media query for mobile devices */
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 10px;
+        /* Add more padding on smaller screens */
+      }
+
+      .card-container {
+        flex-direction: column;
+        /* Stack cards vertically on mobile */
+        align-items: center;
+        margin-top: 20px;
+        /* Add margin at the top for spacing */
+      }
+
+      .card {
+        width: 100%;
+        /* Full width on mobile */
+        max-width: 300px;
+        /* Limit the maximum width */
+        margin-bottom: 20px;
+        /* Ensure bottom margin for each card */
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Maluj jak Vincent van Gogh</h1>
+  <div id="in">
+    <div class="card-container">
+      <div class="card">
+        <img id="content" src="/images/trees.jpg" height="256" alt="Sample Image">
+        <div>
+          <div class="card-title">Twój obiekt</div>
+          <div class="card-content"><p>Artysta zaczyna pracę nad obrazem od wyboru opdowiedniej sceny, zrób zdjęcie aby wybrać swoją</p>
+            <label for="file" class="button">Zrób zdjęcie</label>
+            <input type="file" id="file" capture="environment" accept="image/*">
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <img id="style" src="/images/starry-night.jpg" height="256" alt="Sample Image">
+        <div>
+          <div class="card-title">Gwiaździsta noc <br> <i class="subtitle">V. Van Gogh</i></div>
+          <div class="card-content">
+            <p>Obraz olejny Vincenta van Gogha namalowany w czerwcu 1889 roku podczas pobytu artysty w miejscowości Saint-Rémy na dobrowolnej terapii psychiatrycznej.</p>
+            <p>Obraz Gwiaździsta noc, jako jedno z nielicznych dzieł Van Gogha, nie został namalowany z natury, ale całkowicie z pamięci i dzięki wyobraźni autora. Jest jednym z najsłynniejszych jego dzieł.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <center>
+      <button class="button" style="font-size: 32;" id="run">Uruchom!</button>
+    </center>
+  </div>
+
+
+  <div id="out" hidden>
+    <div class="card" >
+      <canvas id="stylized" height="400"></canvas>
+      <div>
+        <div class="card-title">Bez nazwy 1 <br><i class="subtitle">P. Kowalski</i></div>
+        <div class="card-content"><p>Dodaj swój opis tutaj</p>
+          <button class="button" style="margin-right: 1em;" id="run">Zapisz</button>
+          <button class="button" id="run">Udostępnij</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const uploadInput = document.getElementById("file");
+    uploadInput.addEventListener(
+      "change",
+      () => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const img = document.getElementById('content');
+            img.src = e.target.result;
+          }
+          reader.readAsDataURL(file);
+        }
+      })
+
+    const runButton = document.getElementById('run')
+    runButton.onclick = () => {
+      const model = new mi.ArbitraryStyleTransferNetwork();
+      const contentImg = document.getElementById('content');
+      const styleImg = document.getElementById('style');
+      const stylizedCanvas = document.getElementById('stylized');
+      const outDiv = document.getElementById('out')
+      const inDiv = document.getElementById('in')
+
+      function stylize() {
+        model.stylize(contentImg, styleImg).then((imageData) => {
+          stylizedCanvas.getContext('2d').putImageData(imageData, 0, 0);
+          inDiv.hidden = true
+          outDiv.hidden = false
+        });
+      }
+      model.initialize().then(stylize);
+    }
+  </script>
+</body>
+
+</html>
