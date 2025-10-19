@@ -20,5 +20,4 @@ RUN go mod download
 COPY main.go main.go
 COPY run.sh run.sh
 RUN CGO_ENABLED=0 go build .
-RUN chmod +x run.sh
-CMD ["./run.sh"]
+CMD ["./platform", "serve", "--http=0.0.0.0:8080"]
