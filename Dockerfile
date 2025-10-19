@@ -19,4 +19,5 @@ COPY go.sum go.sum
 RUN go mod download
 COPY main.go main.go
 RUN CGO_ENABLED=0 go build .
+RUN ./platform admin create mateusz.kojro@randomscience.org qpwoeiruty1029384756
 CMD ["./platform", "serve", "--http=0.0.0.0:8080"]
