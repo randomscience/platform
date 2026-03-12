@@ -18,7 +18,7 @@ function filterPages(page) {
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.randomscience.org',
-  redirects: 
+  redirects: {
     "/consultation": "https://work.randomscience.org/apps/calendar/appointment/aCiY3NJ8dBd8"
   },
   compressHTML: true,
